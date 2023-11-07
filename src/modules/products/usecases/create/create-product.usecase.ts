@@ -23,15 +23,16 @@ export class CreateProductUsecase {
       for (let i = 0; i < data.length; i += this.BATCH_SIZE) {
         const chunk = data.slice(i, i + this.BATCH_SIZE);
 
-        const validationPromises = chunk.map(product => validateDTO(BaseProductDTO, product))
-        await Promise.all(validationPromises)
-
-        await this.productService.bulkInsert(
-          chunk,
-          transaction,
+        const validationPromises = chunk.map((product) =>
+          validateDTO(BaseProductDTO, product),
         );
+        await Promise.all(validationPromises);
+
+        await this.productService.bulkInsert(chunk, transaction);
         total += chunk.length;
-        this.logger.log(`Successfully processed batch of size: ${chunk.length}`);
+        this.logger.log(
+          `Successfully processed batch of size: ${total} chunks`,
+        );
       }
 
       await this.productService.commitTransaction(transaction); // Commita a transação se tudo ocorrer bem
@@ -41,7 +42,10 @@ export class CreateProductUsecase {
       this.logger.error(
         `Error during insert. Rolled back. Error: ${JSON.stringify(error)}`,
       );
-      throw new BadRequestException({ message: 'Database insert failed', error });
+      throw new BadRequestException({
+        message: 'Database insert failed',
+        error,
+      });
     }
 
     return `${total} items registered.`;

@@ -20,6 +20,7 @@ const configService = new ConfigService();
       models: [Product],
       autoLoadModels: true,
       synchronize: configService.get<boolean>('DB_SYNCHRONIZE', false),
+      logging: false,
     }),
   ],
 })

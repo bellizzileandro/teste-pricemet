@@ -24,7 +24,8 @@ describe('SearchProductUsecase', () => {
       ],
     }).compile();
 
-    searchProductUsecase = module.get<SearchProductUsecase>(SearchProductUsecase);
+    searchProductUsecase =
+      module.get<SearchProductUsecase>(SearchProductUsecase);
     productService = module.get<ProductService>(ProductService);
   });
 
@@ -32,7 +33,9 @@ describe('SearchProductUsecase', () => {
     const key = 'some-key';
     const expectedResult = new ProductEntity();
 
-    jest.spyOn(productService, 'getProductByKey').mockResolvedValue(expectedResult)
+    jest
+      .spyOn(productService, 'getProductByKey')
+      .mockResolvedValue(expectedResult);
 
     const result = await searchProductUsecase.getProductByKey(key);
 
@@ -42,10 +45,9 @@ describe('SearchProductUsecase', () => {
 
   it('getProducts should call productService with correct query data', async () => {
     const queryData: ProductQueryDTO = { row_count: 5, row_skip: 1 };
-    const expectedResult = [new ProductEntity()]; 
-    
-    jest.spyOn(productService, 'getProducts').mockResolvedValue(expectedResult)
+    const expectedResult = [new ProductEntity()];
 
+    jest.spyOn(productService, 'getProducts').mockResolvedValue(expectedResult);
 
     const result = await searchProductUsecase.getProducts(queryData);
 

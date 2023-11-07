@@ -17,8 +17,10 @@ export class ProductService {
   }
 
   async getProducts(query: ProductQueryDTO): Promise<Product[]> {
-    const limit = query?.row_count || 100;
+    let limit = 100;
     const offset = query?.row_skip || 0;
+
+    if (query?.row_count === -1) limit = undefined;
 
     return this.productModel.findAll({ limit, offset });
   }

@@ -101,14 +101,14 @@ describe('CreateProductUsecase', () => {
 
     const totalProducts = testData.length;
 
-    
     jest.spyOn(mockQueryRunner.manager, 'save').mockResolvedValue(undefined);
 
     const result = await usecase.bulkCreate(testData);
 
     expect(result).toEqual(`${totalProducts} items registered.`);
     expect(
-      productRepository.manager.connection.createQueryRunner().commitTransaction,
+      productRepository.manager.connection.createQueryRunner()
+        .commitTransaction,
     ).toHaveBeenCalled();
   });
 
@@ -138,14 +138,16 @@ describe('CreateProductUsecase', () => {
       },
     ];
 
-    
     jest
       .spyOn(mockQueryRunner.manager, 'save')
       .mockRejectedValue(new BadRequestException('Insert failed'));
 
-    await expect(usecase.bulkCreate(testData)).rejects.toThrow(BadRequestException);
+    await expect(usecase.bulkCreate(testData)).rejects.toThrow(
+      BadRequestException,
+    );
     expect(
-      productRepository.manager.connection.createQueryRunner().rollbackTransaction,
+      productRepository.manager.connection.createQueryRunner()
+        .rollbackTransaction,
     ).toHaveBeenCalled();
   });
 });

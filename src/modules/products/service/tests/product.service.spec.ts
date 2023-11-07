@@ -19,7 +19,9 @@ describe('ProductService', () => {
     entityManagerMock = {
       transaction: jest.fn().mockImplementation(async (transactionBody) => {
         return transactionBody({
-          save: jest.fn().mockImplementation(entities => Promise.resolve(entities)),
+          save: jest
+            .fn()
+            .mockImplementation((entities) => Promise.resolve(entities)),
         });
       }),
     };
@@ -45,6 +47,8 @@ describe('ProductService', () => {
     const key = 'some-key';
     const product = await service.getProductByKey(key);
     expect(product).toBeInstanceOf(ProductEntity);
-    expect(productRepositoryMock.findOne).toHaveBeenCalledWith({ where: { key } });
+    expect(productRepositoryMock.findOne).toHaveBeenCalledWith({
+      where: { key },
+    });
   });
 });

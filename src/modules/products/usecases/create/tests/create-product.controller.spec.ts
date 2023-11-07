@@ -22,7 +22,8 @@ describe('CreateProductController', () => {
     }).compile();
 
     controller = module.get<CreateProductController>(CreateProductController);
-    createProductUsecase = module.get<CreateProductUsecase>(CreateProductUsecase);
+    createProductUsecase =
+      module.get<CreateProductUsecase>(CreateProductUsecase);
   });
 
   it('should be defined', () => {
@@ -35,9 +36,11 @@ describe('CreateProductController', () => {
         // preencha com dados de exemplo válidos
       ];
       const responseMessage = 'Products successfully created.';
-      
-      jest.spyOn(createProductUsecase, 'bulkCreate').mockResolvedValue(responseMessage);
-      
+
+      jest
+        .spyOn(createProductUsecase, 'bulkCreate')
+        .mockResolvedValue(responseMessage);
+
       expect(await controller.createProduct(dto)).toBe(responseMessage);
     });
 
@@ -47,9 +50,15 @@ describe('CreateProductController', () => {
       ];
       const errorMessage = 'Invalid input data';
 
-      jest.spyOn(createProductUsecase, 'bulkCreate').mockRejectedValue(new HttpException(errorMessage, HttpStatus.BAD_REQUEST));
-      
-      await expect(controller.createProduct(dto)).rejects.toThrow(HttpException);
+      jest
+        .spyOn(createProductUsecase, 'bulkCreate')
+        .mockRejectedValue(
+          new HttpException(errorMessage, HttpStatus.BAD_REQUEST),
+        );
+
+      await expect(controller.createProduct(dto)).rejects.toThrow(
+        HttpException,
+      );
     });
   });
 });

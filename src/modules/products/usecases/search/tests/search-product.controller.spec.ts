@@ -22,7 +22,8 @@ describe('SearchProductController', () => {
     }).compile();
 
     controller = module.get<SearchProductController>(SearchProductController);
-    searchProductUsecase = module.get<SearchProductUsecase>(SearchProductUsecase);
+    searchProductUsecase =
+      module.get<SearchProductUsecase>(SearchProductUsecase);
   });
 
   it('should be defined', () => {
@@ -154,7 +155,9 @@ describe('SearchProductController', () => {
         data_fim: '2023-07-31',
       },
     ];
-    jest.spyOn(searchProductUsecase, 'getProducts').mockResolvedValue(mockProducts);
+    jest
+      .spyOn(searchProductUsecase, 'getProducts')
+      .mockResolvedValue(mockProducts);
 
     const result = await controller.searchProducts(query);
 
